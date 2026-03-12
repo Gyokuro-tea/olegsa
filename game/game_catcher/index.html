@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Кодолов | Цифровая Экспедиция</title>
+    <meta property="og:image" content="http://koditok.ru/im.png">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-bg: #5B42F3;
+            --danger: #EF4444;
+            --success: #10B981;
+            --text-dark: #1E293B;
+            --card-bg: #FFFFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+            user-select: none;
+        }
+
+        body {
+            background-color: transparent;
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+            touch-action: none;
+            color: white;
+            display: flex;
+            justify-content: center;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .site-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            border: none;
+            z-index: -10;
+            filter: blur(8px) brightness(0.6);
+            pointer-events: none;
+            background-image: url('../bg_new.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            transform: scale(1.05);
+        }
+
+        .btn-home, .btn-home-gameplay, .btn-close-bg {
+            position: fixed;
+            top: 20px;
+            width: 44px;
+            height: 44px;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.25);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: bold;
+            z-index: 20000;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            transition: 0.3s;
+            padding: 0;
+            margin: 0;
+            animation: fadeDown 0.5s ease;
+        }
+        
+        .btn-home, .btn-home-gameplay { left: 20px; }
+        .btn-close-bg { right: 20px; }
+
+        .btn-home:hover, .btn-home-gameplay:hover {
+            background: rgba(16,185,129,0.3);
+            transform: scale(1.1);
+        }
+
+        .btn-close-bg:hover {
+            background: rgba(239,68,68,0.3);
+            transform: scale(1.1);
+        }
+
+        @keyframes fadeDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        #g2-gameArea {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.2);
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+        }
+
+        .g2-hud {
+            position: absolute;
+            top: 70px;
+            left: 20px;
+            right: 20px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.2rem;
+            font-weight: 800;
+            z-index: 10;
+            animation: fadeDown 0.6s ease;
+        }
+
+        .g2-hud-panel {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px 20px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: 0.3s;
+        }
+
+        .g2-hud-panel:hover {
+            transform: scale(1.05);
+            border-color: rgba(255,255,255,0.3);
+        }
+
+        #g2-basket {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 80px;
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px 20px 10px 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 3rem;
+            box-shadow: 0 0 30px rgba(16,185,129,0.3), 0 10px 25px rgba(0, 0, 0, 0.3);
+            border: 3px solid;
+            border-image: linear-gradient(135deg, #10B981, #3B82F6) 1;
+            transition: left 0.1s;
+            z-index: 5;
+        }
+
+        .g2-item {
+            position: absolute;
+            font-size: 2.5rem;
+            transform: translateX(-50%);
+            z-index: 4;
+        }
+
+        .g2-floating-text {
+            position: absolute;
+            font-weight: bold;
+            font-size: 24px;
+            pointer-events: none;
+            animation: floatUp 1s ease-out forwards;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-50px) scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        #g2-controls {
+            position: absolute;
+            bottom: 120px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .g2-control-btn {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.12);
+            border: 2px solid rgba(255, 255, 255, 0.25);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 26px;
+            color: white;
+            pointer-events: auto;
+            backdrop-filter: blur(8px);
+            transition: 0.2s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .g2-control-btn:active {
+            background: rgba(91,66,243,0.4);
+            transform: scale(0.92);
+            border-color: rgba(91,66,243,0.6);
+        }
+
+        /* ЕДИНОЕ МОДАЛЬНОЕ ОКНО */
+        #modal-game-over {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(20px);
+            padding: 40px 30px;
+            border-radius: 24px;
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            color: var(--text-dark);
+            position: relative;
+            border: 1px solid rgba(255,255,255,0.3);
+            animation: modalSlide 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes modalSlide {
+            from { opacity: 0; transform: translateY(30px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .modal-title {
+            font-size: 2rem;
+            font-weight: 900;
+            margin-bottom: 5px;
+            color: var(--primary-bg);
+        }
+
+        .score-display {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin: 10px 0 20px 0;
+            color: #10B981;
+            animation: scorePulse 0.5s ease;
+        }
+
+        @keyframes scorePulse {
+            0% { transform: scale(0.8); opacity: 0; }
+            60% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .leaderboard-container {
+            text-align: left;
+            margin: 20px 0;
+            background: linear-gradient(135deg, #F8FAFC, #F1F5F9);
+            padding: 15px 20px;
+            border-radius: 18px;
+            border: 1px solid #E2E8F0;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.03);
+        }
+
+        .leaderboard-container h4 {
+            margin: 0 0 15px 0;
+            text-align: center;
+            font-size: 1.1rem;
+            color: #475569;
+        }
+
+        .shop-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .shop-item {
+            background: #F8FAFC;
+            border: 2px solid #E2E8F0;
+            border-radius: 12px;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: 0.2s;
+            text-align: left;
+        }
+
+        .shop-item.locked {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background: #E2E8F0;
+        }
+
+        .shop-item.selected {
+            border-color: var(--primary-bg);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(91, 66, 243, 0.1);
+        }
+
+        .shop-item-icon {
+            font-size: 24px;
+            margin-right: 15px;
+        }
+
+        .shop-item-title {
+            font-weight: 800;
+            font-size: 14px;
+            color: #1E293B;
+            margin-bottom: 2px;
+        }
+
+        .shop-item-cost {
+            font-size: 12px;
+            font-weight: 700;
+            color: #64748B;
+        }
+
+        .shop-item.locked .shop-item-cost {
+            color: #EF4444;
+        }
+
+        .g-achievement {
+            position: fixed;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #10B981, #059669);
+            border: 2px solid #34D399;
+            box-shadow: 0 0 25px rgba(16, 185, 129, 0.6);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 40000;
+            transition: top 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            pointer-events: none;
+        }
+        .g-achievement.show {
+            top: 20px;
+        }
+
+        .leaderboard-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #E2E8F0;
+            font-weight: 700;
+            color: #334155;
+        }
+
+        .leaderboard-item:last-child {
+            border-bottom: none;
+        }
+
+        .leaderboard-item.current {
+            color: var(--primary-bg);
+            background: rgba(91, 66, 243, 0.1);
+            padding: 8px 10px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        .promo-text {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            color: #475569;
+            font-weight: 600;
+            background: rgba(52, 211, 153, 0.1);
+            padding: 15px;
+            border-radius: 12px;
+            border-left: 4px solid #10B981;
+            text-align: left;
+        }
+
+        .floating-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        #input-playerName {
+            text-align: left;
+            padding: 20px 15px 10px;
+            border: 2px solid #E2E8F0;
+            background: #F8FAFC !important;
+            color: #1E293B !important;
+            margin-bottom: 0;
+            box-shadow: none !important;
+        }
+
+        #input-playerName:focus {
+            border-color: var(--primary-bg);
+            background: #FFF !important;
+        }
+
+        .floating-input {
+            width: 100%;
+            padding: 20px 15px 10px;
+            border: 2px solid #E2E8F0;
+            border-radius: 12px;
+            background: #F8FAFC;
+            font-size: 16px;
+            font-weight: 600;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .floating-input:focus {
+            border-color: var(--primary-bg);
+            background: #FFF;
+            box-shadow: 0 0 0 4px rgba(91, 66, 243, 0.1);
+        }
+
+        .floating-label {
+            position: absolute;
+            left: 15px;
+            top: 15px;
+            color: #94A3B8;
+            font-size: 15px;
+            font-weight: 600;
+            pointer-events: none;
+            transition: 0.2s ease-out;
+        }
+
+        .floating-input:focus~.floating-label,
+        .floating-input:not(:placeholder-shown)~.floating-label {
+            top: 5px;
+            font-size: 11px;
+            color: var(--primary-bg);
+            font-weight: 800;
+        }
+
+        .select-input {
+            width: 100%;
+            padding: 18px 15px;
+            margin-bottom: 20px;
+            border: 2px solid #E2E8F0;
+            border-radius: 12px;
+            background: #F8FAFC;
+            font-size: 15px;
+            font-weight: 700;
+            outline: none;
+            cursor: pointer;
+            color: #1E293B;
+            transition: 0.3s;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%235B42F3%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px top 50%;
+            background-size: 12px auto;
+        }
+
+        .select-input:focus {
+            border-color: var(--primary-bg);
+            background-color: #FFF;
+            box-shadow: 0 0 0 4px rgba(91, 66, 243, 0.1);
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 16px;
+            background: var(--primary-bg);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 800;
+            cursor: pointer;
+            text-transform: uppercase;
+            box-shadow: 0 4px 15px rgba(91, 66, 243, 0.3);
+            transition: 0.2s;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(91, 66, 243, 0.4);
+        }
+
+        .btn-submit:disabled {
+            background: #94A3B8;
+            cursor: not-allowed;
+        }
+
+        .btn-restart {
+            width: 100%;
+            padding: 14px;
+            background: transparent;
+            color: #64748B;
+            border: 2px solid #E2E8F0;
+            border-radius: 30px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            text-transform: uppercase;
+            margin-top: 15px;
+            transition: 0.2s;
+        }
+
+        .btn-restart:hover {
+            background: #F1F5F9;
+            color: #334155;
+        }
+
+        #success-section {
+            display: none;
+            text-align: center;
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            margin-bottom: 10px;
+        }
+
+        .btn-telegram-large {
+            display: inline-block;
+            width: 100%;
+            padding: 16px;
+            background: #0088cc;
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 800;
+            text-transform: uppercase;
+            box-shadow: 0 4px 15px rgba(0, 136, 204, 0.4);
+            margin: 20px 0;
+            transition: 0.3s;
+        }
+
+        #start-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 50;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .btn-exit-x {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 30px;
+            height: 30px;
+            background: #F1F5F9;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            color: #64748B;
+            font-weight: bold;
+            font-size: 16px;
+            border: 1px solid #E2E8F0;
+            transition: 0.2s;
+            z-index: 60;
+        }
+
+        .btn-exit-hub {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: #F1F5F9;
+            border: 1px solid #E2E8F0;
+            color: #64748B;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-weight: 800;
+            font-size: 12px;
+            text-decoration: none;
+            transition: 0.2s;
+            z-index: 60;
+        }
+
+        #start-overlay h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: var(--success);
+        }
+
+        #start-overlay p {
+            margin-bottom: 30px;
+            font-size: 1.2rem;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        @media (max-width: 600px) {
+            .btn-home, .btn-home-gameplay, .btn-close-bg {
+                width: 40px;
+                height: 40px;
+                font-size: 20px;
+                top: 10px;
+            }
+            .btn-home, .btn-home-gameplay { left: 10px; }
+            .btn-close-bg { right: 10px; }
+
+            .g2-hud {
+                top: 60px;
+                font-size: 1rem;
+            }
+
+            .g2-hud-panel {
+                padding: 8px 15px;
+            }
+
+            #start-overlay h2 {
+                font-size: 1.5rem;
+            }
+
+            #start-overlay p {
+                font-size: 1rem;
+            }
+
+            #modal-game-over {
+                padding: 10px;
+            }
+
+            .modal-content {
+                padding: 25px 20px;
+                border-radius: 16px;
+                width: 100%;
+                max-height: 90vh;
+                overflow-y: auto;
+            }
+
+            .modal-title {
+                font-size: 1.5rem;
+            }
+
+            .score-display {
+                font-size: 1.8rem;
+                margin: 5px 0 15px;
+            }
+
+            .promo-text {
+                font-size: 0.85rem;
+                padding: 12px;
+                margin-bottom: 15px;
+            }
+
+            .floating-input {
+                padding: 16px 12px 6px;
+                font-size: 14px;
+            }
+
+            .floating-label {
+                font-size: 13px;
+                top: 12px;
+            }
+
+            .floating-input:focus~.floating-label,
+            .floating-input:not(:placeholder-shown)~.floating-label {
+                top: 3px;
+                font-size: 10px;
+            }
+
+            .select-input {
+                padding: 12px;
+                font-size: 13px;
+                margin-bottom: 15px;
+                background-position: right 10px center;
+            }
+
+            .btn-submit {
+                padding: 14px;
+                font-size: 14px;
+            }
+
+            .btn-restart {
+                padding: 12px;
+                font-size: 13px;
+                margin-top: 10px;
+            }
+
+            #success-section h3 {
+                font-size: 1.4rem !important;
+            }
+
+            .btn-telegram-large {
+                padding: 14px;
+                font-size: 13px;
+            }
+
+            .success-icon {
+                font-size: 3rem;
+                margin-bottom: 5px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="site-bg"></div>
+    <a href="https://koditok.ru" class="btn-close-bg" title="Перейти на koditok.ru">✖</a>
+
+    <div id="g2-gameArea">
+        <div id="start-overlay"
+            style="overflow-y: auto; padding: 60px 20px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; background: rgba(15, 23, 42, 0.85);">
+            <a href="../index.html" class="btn-home" title="В хаб">🏠</a>
+            <div style="margin: auto; display: flex; flex-direction: column; align-items: center; width: 100%;">
+                <h2>Кодолов</h2>
+
+                <!-- Настройка героя -->
+                <div id="setup-hero"
+                    style="background: rgba(255,255,255,0.1); border-radius: 15px; padding: 15px; margin: 15px 0; width: 90%; max-width: 350px;">
+                    <p style="margin-bottom: 10px; font-weight: bold; color: #FFF;">Настрой своего Кодолова:</p>
+
+                    <div class="floating-group" style="margin-bottom: 20px;">
+                        <input type="text" id="input-playerName" class="floating-input" placeholder=" " required>
+                        <label class="floating-label" style="color: #64748B;">Твое крутое имя</label>
+                    </div>
+
+                    <div id="catcher-preview"
+                        style="font-size: 40px; width: 60px; height: 60px; margin: 0 auto 10px; border-radius: 12px; display: flex; justify-content: center; align-items: center; background: #60A5FA; border: 2px solid rgba(255,255,255,0.3); box-shadow: 0 4px 10px rgba(0,0,0,0.3); transition: 0.3s;">
+                        🤖</div>
+
+
+                    <p style="font-size: 0.85rem; margin-bottom: 5px;">Цвет корзины:</p>
+                    <div style="display: flex; gap: 8px; justify-content: center; margin-bottom: 12px;">
+                        <div class="color-btn2"
+                            style="width:30px; height:30px; border-radius:50%; background:#60A5FA; cursor:pointer; border:3px solid white;"
+                            data-color="#60A5FA" onclick="catcherApp.selectColor('#60A5FA', this)"></div>
+                        <div class="color-btn2"
+                            style="width:30px; height:30px; border-radius:50%; background:#34D399; cursor:pointer; border:3px solid transparent;"
+                            data-color="#34D399" onclick="catcherApp.selectColor('#34D399', this)"></div>
+                        <div class="color-btn2"
+                            style="width:30px; height:30px; border-radius:50%; background:#FBBF24; cursor:pointer; border:3px solid transparent;"
+                            data-color="#FBBF24" onclick="catcherApp.selectColor('#FBBF24', this)"></div>
+                        <div class="color-btn2"
+                            style="width:30px; height:30px; border-radius:50%; background:#F472B6; cursor:pointer; border:3px solid transparent;"
+                            data-color="#F472B6" onclick="catcherApp.selectColor('#F472B6', this)"></div>
+                    </div>
+
+                    <p style="font-size: 0.85rem; margin-bottom: 5px;">Эмоция:</p>
+                    <div style="display: flex; gap: 8px; justify-content: center;">
+                        <div class="icon-btn2"
+                            style="font-size: 24px; cursor: pointer; padding: 4px; border-radius: 8px; background: rgba(255,255,255,0.2);"
+                            data-icon="🤖" onclick="catcherApp.selectIcon('🤖', this)">🤖</div>
+                        <div class="icon-btn2"
+                            style="font-size: 24px; cursor: pointer; padding: 4px; border-radius: 8px; background: transparent;"
+                            data-icon="😎" onclick="catcherApp.selectIcon('😎', this)">😎</div>
+                        <div class="icon-btn2"
+                            style="font-size: 24px; cursor: pointer; padding: 4px; border-radius: 8px; background: transparent;"
+                            data-icon="😲" onclick="catcherApp.selectIcon('😲', this)">😲</div>
+                        <div class="icon-btn2"
+                            style="font-size: 24px; cursor: pointer; padding: 4px; border-radius: 8px; background: transparent;"
+                            data-icon="🎃" onclick="catcherApp.selectIcon('🎃', this)">🎃</div>
+                    </div>
+                </div>
+
+                <button class="btn-submit" style="width: 80%; max-width: 300px;" onclick="catcherApp.startGame()">НАЧАТЬ
+            </div>
+
+        </div>
+
+        <div class="g2-hud" id="g2-hud">
+            <div style="display: flex; align-items: center; gap: 15px; pointer-events: auto;">
+                <a href="../index.html" class="btn-home-gameplay" title="В хаб">🏠</a>
+                <div class="g2-hud-panel">❤️ <span id="g2-livesDisplay">3</span></div>
+                <div class="g2-hud-panel">⭐ <span id="g2-scoreDisplay">0</span></div>
+            </div>
+        </div>
+        <div id="g2-basket"
+            style="position: absolute; bottom: 80px; left: 50%; width: 60px; height: 60px; transform: translateX(-50%); background: #60A5FA; border: 4px solid var(--success); border-radius: 12px; display: flex; justify-content: center; align-items: center; font-size: 32px; color: white; transition: background 0.2s, border-color 0.2s; box-shadow: 0 4px 15px rgba(0,0,0,0.3); z-index: 10;">
+            🤖</div>
+        <div id="g2-controls">
+            <div class="g2-control-btn" id="g2-btnLeft">⬅️</div>
+            <div class="g2-control-btn" id="g2-btnRight">➡️</div>
+        </div>
+
+
+        <!-- МОДАЛЬНОЕ ОКНО -->
+        <div id="modal-game-over"
+            style="overflow-y: auto; padding: 60px 20px; display: none; align-items: flex-start; background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(8px);">
+            <div class="modal-content" style="margin: auto;">
+                <a href="../index.html" class="btn-home" title="В хаб">🏠</a>
+                <a href="https://koditok.ru" class="btn-close-bg">✖</a>
+                <div class="modal-title" id="go-title">Баги победили!</div>
+                <div class="score-display">Очки: <span id="go-score">0</span></div>
+                <div id="go-rank" style="font-size: 1.1rem; font-weight: 800; color: #5B42F3; margin-bottom: 15px;">
+                    Загружаем твое место...</div>
+
+                <div class="leaderboard-container">
+                    <h4 id="go-leaderboard-title">Топ Игроков: Кодолов</h4>
+                    <div id="go-leaderboard-list"></div>
+                </div>
+
+                <div style="margin: 15px 0; text-align:left;">
+                    <h4 style="text-align:center; margin-bottom:10px; color:#475569;">🎁 Призы за очки</h4>
+                    <div id="go-shop-container" style="display:flex; flex-direction:column; gap:8px;"></div>
+                </div>
+
+                <a href="https://forms.amocrm.ru/rczvvlc" target="_blank" class="btn-submit" style="display:block; text-decoration:none; text-align:center;">📝 ЗАПИСАТЬСЯ НА КУРС</a>
+                <button class="btn-restart"
+                    onclick="document.getElementById('modal-game-over').style.display='none'; Game2.start();">ИГРАТЬ
+                    ЗАНОВО</button>
+                <button class="btn-restart" onclick="window.location.href='../index.html'">В Главное Меню</button>
+            </div>
+        </div>
+
+
+    <!-- Floating particles canvas -->
+    <canvas id="particles-bg" style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:-5;pointer-events:none;"></canvas>
+    <script>
+        (function(){
+            const pc = document.getElementById('particles-bg');
+            const pctx = pc.getContext('2d');
+            function resizePC() { pc.width = window.innerWidth; pc.height = window.innerHeight; }
+            resizePC(); window.addEventListener('resize', resizePC);
+            const dots = [];
+            for(let i=0;i<40;i++) dots.push({x:Math.random()*pc.width,y:Math.random()*pc.height,r:Math.random()*3+1,dx:(Math.random()-0.5)*0.5,dy:(Math.random()-0.5)*0.5,a:Math.random()*0.15+0.05});
+            function drawP(){
+                pctx.clearRect(0,0,pc.width,pc.height);
+                dots.forEach(d=>{
+                    d.x+=d.dx;d.y+=d.dy;
+                    if(d.x<0)d.x=pc.width;if(d.x>pc.width)d.x=0;
+                    if(d.y<0)d.y=pc.height;if(d.y>pc.height)d.y=0;
+                    pctx.beginPath();pctx.arc(d.x,d.y,d.r,0,Math.PI*2);
+                    pctx.fillStyle=`rgba(91,66,243,${d.a})`;
+                    pctx.fill();
+                });
+                requestAnimationFrame(drawP);
+            }
+            drawP();
+        })();
+
+        function createCatchEffect(x, y, color) {
+            for(let i=0;i<10;i++){
+                const s = document.createElement('div');
+                const angle = Math.random()*Math.PI*2;
+                const dist = 40 + Math.random()*30;
+                s.style.cssText = `position:fixed;left:${x}px;top:${y}px;width:8px;height:8px;border-radius:50%;background:${color};z-index:9999;pointer-events:none;transition:all 0.6s cubic-bezier(0.16,1,0.3,1);opacity:1;box-shadow:0 0 10px ${color};`;
+                document.body.appendChild(s);
+                requestAnimationFrame(()=>{
+                    s.style.transform = `translate(${Math.cos(angle)*dist}px, ${Math.sin(angle)*dist}px) scale(0)`;
+                    s.style.opacity = '0';
+                });
+                setTimeout(()=>s.remove(), 700);
+            }
+        }
+    </script>
+        <script>
+            const Game2 = {
+                score: 0, lives: 3, basketX: 50, speedMult: 1, items: [], dropTimer: 0, loopId: null, lastTime: 0,
+                area: document.getElementById('g2-gameArea'),
+                basket: document.getElementById('g2-basket'),
+                GOOD: ['🐍', '🌐', '🎮', '🎨', '💡', '🌟', '💻'], BAD: ['🐛', '👾', '🦠', '💣'],
+                keys: { l: false, r: false }, isActive: false,
+                hero: { color: '#60A5FA', icon: '🤖' },
+
+                selectColor(c, btn) {
+                    this.hero.color = c;
+                    this.basket.style.backgroundColor = c;
+                    document.querySelectorAll('.color-btn2').forEach(b => b.style.borderColor = 'transparent');
+                    btn.style.borderColor = 'white';
+                    const prev = document.getElementById('catcher-preview');
+                    if (prev) prev.style.backgroundColor = c;
+                },
+                selectIcon(i, btn) {
+                    this.hero.icon = i;
+                    this.basket.innerText = i;
+                    document.querySelectorAll('.icon-btn2').forEach(b => b.style.background = 'transparent');
+                    btn.style.background = 'rgba(255,255,255,0.2)';
+                    const prev = document.getElementById('catcher-preview');
+                    if (prev) prev.innerText = i;
+                },
+                
+                achievements: JSON.parse(localStorage.getItem('catcher_achievements')) || {
+                    'first_catch': false,
+                    'points_30': false,
+                    'points_100': false,
+                    'points_300': false
+                },
+
+                showAchievement(text) {
+                    const popup = document.getElementById('achievement-popup');
+                    document.getElementById('achievement-text').innerText = text;
+                    popup.classList.add('show');
+                    localStorage.setItem('catcher_achievements', JSON.stringify(this.achievements));
+                    setTimeout(() => {
+                        popup.classList.remove('show');
+                    }, 3000);
+                },
+
+                initEvents() {
+                    window.addEventListener('keydown', e => { if (e.code === 'ArrowLeft' || e.code === 'KeyA') this.keys.l = true; if (e.code === 'ArrowRight' || e.code === 'KeyD') this.keys.r = true; });
+                    window.addEventListener('keyup', e => { if (e.code === 'ArrowLeft' || e.code === 'KeyA') this.keys.l = false; if (e.code === 'ArrowRight' || e.code === 'KeyD') this.keys.r = false; });
+
+                    document.getElementById('g2-btnLeft').addEventListener('touchstart', e => { e.preventDefault(); this.keys.l = true; });
+                    document.getElementById('g2-btnLeft').addEventListener('touchend', () => this.keys.l = false);
+                    document.getElementById('g2-btnRight').addEventListener('touchstart', e => { e.preventDefault(); this.keys.r = true; });
+                    document.getElementById('g2-btnRight').addEventListener('touchend', () => this.keys.r = false);
+
+                    this.area.addEventListener('touchstart', e => { if (!this.isActive) return; if (e.touches[0].clientX < window.innerWidth / 2) this.keys.l = true; else this.keys.r = true; });
+                    this.area.addEventListener('touchend', () => { this.keys.l = false; this.keys.r = false; });
+                },
+
+                start() {
+                    document.getElementById('start-overlay').style.display = 'none';
+                    this.isActive = true; this.score = 0; this.lives = 3; this.basketX = 50; this.speedMult = 1;
+                    document.querySelectorAll('.g2-item').forEach(e => e.remove()); this.items = [];
+                    this.basket.style.border = '4px solid var(--success)';
+                    this.basket.style.backgroundColor = this.hero.color;
+                    this.basket.innerText = this.hero.icon;
+                    this.updateHUD();
+                    this.lastTime = performance.now();
+                    this.loopId = requestAnimationFrame(t => this.loop(t));
+                },
+
+                stop() { this.isActive = false; cancelAnimationFrame(this.loopId); },
+
+                updateHUD() { document.getElementById('g2-livesDisplay').innerText = this.lives; document.getElementById('g2-scoreDisplay').innerText = this.score; },
+
+                loop(time) {
+                    if (!this.isActive) return;
+                    const dt = Math.min((time - this.lastTime) / 1000, 0.1); this.lastTime = time;
+
+                    if (this.keys.l) this.basketX -= 60 * dt;
+                    if (this.keys.r) this.basketX += 60 * dt;
+                    this.basketX = Math.max(10, Math.min(90, this.basketX));
+                    this.basket.style.left = this.basketX + '%';
+
+                    this.dropTimer -= dt;
+                    if (this.dropTimer <= 0) {
+                        const isBad = Math.random() < 0.25;
+                        const el = document.createElement('div'); el.className = 'g2-item';
+                        el.innerText = isBad ? this.BAD[Math.floor(Math.random() * this.BAD.length)] : this.GOOD[Math.floor(Math.random() * this.GOOD.length)];
+                        el.style.left = (10 + Math.random() * 80) + '%'; el.style.top = '-50px';
+                        this.area.appendChild(el);
+                        this.items.push({ y: -50, isBad, el, xPos: parseFloat(el.style.left) });
+
+                        this.speedMult = 1 + (this.score / 300);
+                        this.dropTimer = Math.max(0.4, 1.2 / (1 + (this.score / 200)));
+                    }
+
+                    const areaH = this.area.clientHeight, basY = this.basket.getBoundingClientRect().top - this.area.getBoundingClientRect().top;
+                    const basXPx = (this.basketX / 100) * this.area.getBoundingClientRect().width;
+
+                    for (let i = this.items.length - 1; i >= 0; i--) {
+                        let it = this.items[i]; it.y += 350 * this.speedMult * dt; it.el.style.top = it.y + 'px';
+
+                        if (it.y + 40 > basY && it.y < basY + 40) {
+                            const itXPx = (it.xPos / 100) * this.area.getBoundingClientRect().width;
+                            if (Math.abs(itXPx - basXPx) < 50) {
+                                if (!it.isBad) { 
+                                    this.score += 10; 
+                                    this.showFloat(itXPx, it.y, '+10', '#10B981'); 
+                                    this.basket.style.border = '4px solid var(--success)';
+                                    createCatchEffect(itXPx + this.area.getBoundingClientRect().left, it.y + this.area.getBoundingClientRect().top, '#10B981');
+                                }
+                                else { 
+                                    this.lives--; 
+                                    this.showFloat(itXPx, it.y, 'ОЙ!', '#EF4444'); 
+                                    this.basket.style.border = '4px solid var(--accent)'; 
+                                    this.area.style.background = 'rgba(239,68,68,0.3)'; 
+                                    createCatchEffect(itXPx + this.area.getBoundingClientRect().left, it.y + this.area.getBoundingClientRect().top, '#EF4444');
+                                    setTimeout(() => this.area.style.background = 'rgba(0,0,0,0.2)', 150); 
+                                }
+                                this.updateHUD(); it.el.remove(); this.items.splice(i, 1);
+                                if (this.lives <= 0) { this.stop(); showGameOver(); return; }
+                                continue;
+                            }
+                        }
+                        if (it.y > areaH + 50) { it.el.remove(); this.items.splice(i, 1); }
+                    }
+                    this.loopId = requestAnimationFrame(t => this.loop(t));
+                },
+
+                showFloat(x, y, text, color) {
+                    const el = document.createElement('div'); el.className = 'g2-floating-text'; el.style.left = x + 'px'; el.style.top = y + 'px'; el.style.color = color; el.innerText = text; this.area.appendChild(el); setTimeout(() => el.remove(), 1000);
+                }
+            };
+
+
+            // ЛИДЕРБОРДЫ И ФОРМА
+            const BIN_ID = '69b093a584682b356286f17d';
+            const JSONBIN_KEY = '$2a$10$b87y0OSnFsBJqk5N87voBOhYvkQb6VQX8hWHDllf9J65k0.QxHl3i';
+
+            async function getLeaderboard() {
+                try {
+                    let res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+                        method: 'GET',
+                        headers: { 'X-Master-Key': JSONBIN_KEY }
+                    });
+                    if (res.ok) {
+                        let data = await res.json();
+                        let board = Array.isArray(data.record) ? data.record : [];
+                        return board.sort((a, b) => b.score - a.score).slice(0, 10);
+                    }
+                } catch (e) { console.error('Error fetching leaderboard:', e); }
+
+                // Fallback to local
+                let board = JSON.parse(localStorage.getItem('koditok_leader_board_game2'));
+                if (!board) { board = [{ name: 'RoboMaster', score: 320 }, { name: 'PythonFan', score: 210 }, { name: 'CoderX', score: 110 }]; }
+                return board.sort((a, b) => b.score - a.score).slice(0, 3);
+            }
+
+            const shopItems = [
+                { title: 'Скидка 10% на любой курс', cost: 0, icon: '🎁', gradient: 'linear-gradient(135deg, #10B981, #059669)' },
+                { title: 'Скидка 15% на курс Электроники', cost: 100, icon: '🔌', gradient: 'linear-gradient(135deg, #3B82F6, #1D4ED8)' },
+                { title: 'Фирменный стикерпак', cost: 300, icon: '🎒', gradient: 'linear-gradient(135deg, #EC4899, #BE185D)' },
+                { title: 'Бесплатное занятие', cost: 500, icon: '🎓', gradient: 'linear-gradient(135deg, #F59E0B, #D97706)' }
+            ];
+
+            function renderShop() {
+                const container = document.getElementById('go-shop-container');
+                container.innerHTML = '';
+                shopItems.forEach(item => {
+                    const unlocked = Game2.score >= item.cost;
+                    const div = document.createElement('div');
+                    div.style.cssText = `display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:14px;border:2px solid ${unlocked ? '#10B981' : '#E2E8F0'};background:${unlocked ? 'rgba(16,185,129,0.06)' : '#F8FAFC'};opacity:${unlocked ? 1 : 0.5};transition:0.2s;`;
+                    div.innerHTML = `<div style="width:42px;height:42px;border-radius:12px;background:${unlocked ? item.gradient : '#CBD5E1'};display:flex;justify-content:center;align-items:center;font-size:22px;box-shadow:0 4px 10px rgba(0,0,0,0.15);">${unlocked ? item.icon : '🔒'}</div><div style="flex:1;"><div style="font-weight:800;font-size:13px;color:#1E293B;">${item.title}</div><div style="font-size:11px;font-weight:700;color:${unlocked ? '#10B981' : '#EF4444'};">${item.cost > 0 ? (unlocked ? '✅ Разблокировано' : `🔒 Нужно ${item.cost} очков`) : '⭐ Бесплатно'}</div></div>`;
+                    container.appendChild(div);
+                });
+            }
+
+            async function showGameOver() {
+                document.getElementById('go-score').innerText = Game2.score;
+                document.getElementById('go-leaderboard-list').innerHTML = '<span>Отправка результата...</span>';
+
+                renderShop();
+                document.getElementById('modal-game-over').style.display = 'flex';
+
+                const catcher_hero = JSON.parse(localStorage.getItem('catcher_hero')) || { color: '#60A5FA', icon: '🤖', name: 'Игрок' };
+                const finalName = (catcher_hero.name || 'Кодолов').trim();
+
+                // Auto submit to leaderboard
+                (async () => {
+                    try {
+                        let res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, { method: 'GET', headers: { 'X-Master-Key': JSONBIN_KEY } });
+                        let board = [];
+                        if (res.ok) { let data = await res.json(); board = Array.isArray(data.record) ? data.record : []; }
+
+                        const existingIndex = board.findIndex(e => e.name.toLowerCase() === finalName.toLowerCase());
+                        if (existingIndex !== -1) {
+                            if (Game2.score > board[existingIndex].score) {
+                                board[existingIndex].score = Game2.score;
+                                board[existingIndex].date = new Date().toISOString();
+                                board[existingIndex].catcher_hero = catcher_hero;
+                            }
+                        } else {
+                            board.push({ name: finalName, score: Game2.score, date: new Date().toISOString(), catcher_hero: catcher_hero });
+                        }
+
+                        board.sort((a, b) => b.score - a.score);
+                        await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+                            method: 'PUT', headers: { 'Content-Type': 'application/json', 'X-Master-Key': JSONBIN_KEY }, body: JSON.stringify(board)
+                        });
+                        localStorage.setItem('koditok_leader_board_game2', JSON.stringify(board));
+                        refreshLeaderboardUI(true);
+
+                        // Update rank display
+                        const rank = board.findIndex(e => e.name.toLowerCase() === finalName.toLowerCase()) + 1;
+                        document.getElementById('go-rank').innerText = rank > 0 ? `Твое место в мире: ${rank}` : 'Твое место: Загрузка...';
+                        if (rank > 10) {
+                            document.getElementById('go-rank').style.color = '#EF4444'; // Red for distant rank
+                        } else {
+                            document.getElementById('go-rank').style.color = '#5B42F3';
+                        }
+                    } catch (e) { console.error('Auto leaderboard fail', e); refreshLeaderboardUI(false); }
+                })();
+            }
+
+            async function refreshLeaderboardUI(success) {
+                const list = document.getElementById('go-leaderboard-list');
+                const board = await getLeaderboard();
+                if (list) {
+                    list.innerHTML = '';
+                    board.forEach((entry, idx) => {
+                        let avatar = '';
+                        if (entry.catcher_hero) {
+                            const c = entry.catcher_hero;
+                            avatar = `<div style="width:30px; height:30px; border-radius:8px; background:${c.color}; border:2px solid white; display:inline-flex; justify-content:center; align-items:center; vertical-align:middle; margin-right:10px; font-size:16px;">${c.icon}</div>`;
+                        } else {
+                            avatar = `<div style="width:30px; height:30px; border-radius:8px; background:#60A5FA; border:2px solid white; display:inline-flex; justify-content:center; align-items:center; vertical-align:middle; margin-right:10px; font-size:16px;">🤖</div>`;
+                        }
+                        const div = document.createElement('div'); div.className = 'leaderboard-item';
+                        div.innerHTML = `<span style="display:flex; align-items:center;">#${idx + 1}&nbsp;&nbsp;${avatar} ${entry.name}</span> <span>${entry.score}</span>`;
+                        list.appendChild(div);
+                    });
+                    const cur = document.createElement('div'); cur.className = 'leaderboard-item current'; cur.innerHTML = `<span>Ваш результат:</span> <span>${Game2.score}</span>`; list.appendChild(cur);
+                }
+            }
+
+
+
+            const catcherApp = {
+                color: '#60A5FA',
+                icon: '🤖',
+                init() {
+                    const saved = JSON.parse(localStorage.getItem('catcher_hero'));
+                    if (saved) {
+                        this.color = saved.color || this.color;
+                        this.icon = saved.icon || this.icon;
+                        if (saved.name) document.getElementById('input-playerName').value = saved.name;
+                    }
+
+                    // Sync button highlights via data attributes
+                    document.querySelectorAll('.color-btn2').forEach(btn => {
+                        btn.style.borderColor = btn.getAttribute('data-color') === this.color ? 'white' : 'transparent';
+                    });
+                    document.querySelectorAll('.icon-btn2').forEach(btn => {
+                        btn.style.background = btn.getAttribute('data-icon') === this.icon ? 'rgba(255,255,255,0.2)' : 'transparent';
+                    });
+
+                    this.updatePreview();
+                },
+                selectColor(c, el) {
+                    this.color = c;
+                    document.querySelectorAll('.color-btn2').forEach(b => b.style.borderColor = 'transparent');
+                    el.style.borderColor = 'white';
+                    this.updatePreview();
+                },
+                selectIcon(i, el) {
+                    this.icon = i;
+                    document.querySelectorAll('.icon-btn2').forEach(b => b.style.background = 'transparent');
+                    el.style.background = 'rgba(255,255,255,0.2)';
+                    this.updatePreview();
+                },
+                updatePreview() {
+                    const p = document.getElementById('catcher-preview');
+                    p.style.background = this.color;
+                    p.innerText = this.icon;
+                },
+                startGame() {
+                    const nameInp = document.getElementById('input-playerName');
+                    const name = nameInp ? (nameInp.value.trim() || 'Кодолов') : 'Кодолов';
+                    localStorage.setItem('catcher_hero', JSON.stringify({ color: this.color, icon: this.icon, name: name }));
+
+                    // Critical Fix: Sync to Game2 object
+                    Game2.hero.color = this.color;
+                    Game2.hero.icon = this.icon;
+
+                    Game2.start();
+                }
+            };
+
+            catcherApp.init();
+            Game2.initEvents();
+        </script>
+</body>
+
+</html>
