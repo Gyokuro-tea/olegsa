@@ -220,6 +220,65 @@
             color: var(--text-dark);
         }
 
+        /* --- Values Section --- */
+        .values-section {
+            padding: 80px 0;
+            background-color: #fff;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .value-card {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: var(--radius-lg);
+            position: relative;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #f0f0f0;
+            border-top: 6px solid var(--primary);
+        }
+
+        .value-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .value-card h3 {
+            font-size: 32px;
+            font-weight: 900;
+            margin: 0 0 15px 0;
+            color: var(--text-dark);
+        }
+
+        /* Цвета для каждой карточки */
+        .value-card:nth-child(1) { border-top-color: #4FB0F2; box-shadow: 0 10px 30px rgba(79, 176, 242, 0.08); }
+        .value-card:nth-child(2) { border-top-color: #FFB800; box-shadow: 0 10px 30px rgba(255, 184, 0, 0.08); }
+        .value-card:nth-child(3) { border-top-color: #FF6170; box-shadow: 0 10px 30px rgba(255, 97, 112, 0.08); }
+        .value-card:nth-child(4) { border-top-color: #6366F1; box-shadow: 0 10px 30px rgba(99, 102, 241, 0.08); }
+        .value-card:nth-child(5) { border-top-color: #A855F7; box-shadow: 0 10px 30px rgba(168, 85, 247, 0.08); }
+        .value-card:nth-child(6) { border-top-color: #22C55E; box-shadow: 0 10px 30px rgba(34, 197, 94, 0.08); }
+
+        /* Ховеры с усиленной тенью */
+        .value-card:nth-child(1):hover { box-shadow: 0 20px 40px rgba(79, 176, 242, 0.2); }
+        .value-card:nth-child(2):hover { box-shadow: 0 20px 40px rgba(255, 184, 0, 0.2); }
+        .value-card:nth-child(3):hover { box-shadow: 0 20px 40px rgba(255, 97, 112, 0.2); }
+        .value-card:nth-child(4):hover { box-shadow: 0 20px 40px rgba(99, 102, 241, 0.2); }
+        .value-card:nth-child(5):hover { box-shadow: 0 20px 40px rgba(168, 85, 247, 0.2); }
+        .value-card:nth-child(6):hover { box-shadow: 0 20px 40px rgba(34, 197, 94, 0.2); }
+
+        .value-card p {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #333;
+            font-weight: 500;
+            margin: 0;
+        }
+
         .content-section {
             padding: 60px 0;
         }
@@ -1078,6 +1137,43 @@
             <a href="#courses" class="btn">Записаться на занятия</a>
         </div>
     </div>
+
+    <section class="values-section container reveal" id="values">
+        <h2 class="section-title">Почему выбирают нас</h2>
+        <div class="values-grid">
+            <div class="value-card">
+                <h3>Интересно</h3>
+                <p>Теория на занятиях укладывается в 5 минут. А дальше ребята начинают что-то мастерить, узнавая в
+                    процессе законы физики, химии, информатики</p>
+            </div>
+            <div class="value-card">
+                <h3>Полезно</h3>
+                <p>Цифровая грамотность, умение паять, пилить, читать чертежи и электрические схемы, создавать модели
+                    для 3D печати, разбираться в основных химических реакциях - всегда пригодятся</p>
+            </div>
+            <div class="value-card">
+                <h3>Доступно</h3>
+                <p>Стоимость мастер-классов — от 800 руб. Действует система скидок при покупке абонемента более чем на 4
+                    занятия. А также предусмотрены скидки для детей из одной семьи</p>
+            </div>
+            <div class="value-card">
+                <h3>Престижно</h3>
+                <p>По окончании курса дети получают именные сертификаты. Наши программы разработаны в партнерстве с
+                    резидентами Сколково, что подтверждает высокий уровень обучения и официально признается в других
+                    учебных заведениях</p>
+            </div>
+            <div class="value-card">
+                <h3>Результативно</h3>
+                <p>Ребята не просто учатся, а создают реальные проекты. Каждый курс заканчивается готовым устройством
+                    или программой, которую ребенок забирает с собой и может с гордостью показать родителям.</p>
+            </div>
+            <div class="value-card">
+                <h3>Индивидуально</h3>
+                <p style="margin-bottom: 15px;"><strong>Для родителей:</strong> Спокойствие за результат и безопасность. Наставник на связи, малые группы и персональный подход к талантам вашего ребенка.</p>
+                <p><strong>Для ребенка:</strong> Твой собственный темп, поддержка наставника и возможность реализовать свои идеи! Здесь тебя не подгоняют, а вдохновляют на новые открытия.</p>
+            </div>
+        </div>
+    </section>
 
     <section class="content-section container reveal" id="events">
         <h2 class="section-title">Ближайшие мероприятия</h2>
