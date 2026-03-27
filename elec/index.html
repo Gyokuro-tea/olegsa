@@ -1,0 +1,1498 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Учи.ру - Технические занятия</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FF6170;
+            /* Коралловый из Uchi.ru */
+            --primary-hover: #e55664;
+            --secondary: #4F2DAB;
+            /* Фиолетовый из Uchi.ru */
+            --accent: #FF6170;
+            --bg-color: #ffffff;
+            --text-dark: #111111;
+            --text-light: #666666;
+            --footer-bg: #4F2DAB;
+            --radius-lg: 40px;
+            --radius-md: 20px;
+            --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            color: var(--text-dark);
+            margin: 0;
+            padding: 0;
+            line-height: 1.5;
+            background-color: var(--bg-color);
+            overflow-x: hidden;
+        }
+
+        /* --- Animations --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: var(--transition);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        header {
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        header.hide {
+            transform: translateY(-100%);
+        }
+
+        header .logo {
+            color: var(--primary);
+        }
+
+        header nav a {
+            color: #1a1a1a;
+        }
+
+        header nav a:hover {
+            color: var(--primary);
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: #fff;
+            padding: 18px 36px;
+            border-radius: 100px;
+            /* Таблетка как на Uchi.ru */
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            transition: var(--transition);
+            box-shadow: 0 8px 20px rgba(255, 97, 112, 0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 12px 25px rgba(255, 97, 112, 0.3);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            box-shadow: none;
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: #fff;
+        }
+
+        header {
+            background-color: #fff;
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 34px;
+            font-weight: 900;
+            color: var(--primary);
+            text-decoration: none;
+            letter-spacing: -1px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 700;
+            font-size: 16px;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .hero {
+            padding: 120px 24px;
+            text-align: center;
+            background: radial-gradient(circle at top right, #fff5f6, #ffffff);
+            position: relative;
+            overflow: hidden;
+            border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+            margin-bottom: 80px;
+        }
+
+        .hero-bg-icon {
+            position: absolute;
+            opacity: 0.1;
+            z-index: 0;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(0);
+            }
+
+            50% {
+                transform: translateY(-20px) rotate(10deg);
+            }
+        }
+
+        .hero h1 {
+            font-size: 64px;
+            font-weight: 800;
+            margin-bottom: 24px;
+            line-height: 1.1;
+            color: var(--text-dark);
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 40px;
+            color: var(--text-light);
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-title {
+            font-size: 42px;
+            font-weight: 900;
+            text-align: center;
+            margin-bottom: 50px;
+            color: var(--text-dark);
+        }
+
+        .content-section {
+            padding: 60px 0;
+        }
+
+        .event-card,
+        .course-card {
+            background: #fff;
+            border-radius: var(--radius-lg);
+            padding: 48px;
+            display: flex;
+            align-items: center;
+            gap: 60px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            border: 1px solid #f0f0f0;
+            transition: var(--transition);
+        }
+
+        .event-card:hover,
+        .course-card:hover {
+            transform: translateY(-8px);
+            border-color: #eee;
+        }
+
+        .event-card:nth-child(even) {
+            background-color: #FDF4DF;
+        }
+
+        .course-card {
+            background-color: #E6F7F8;
+        }
+
+        .card-image {
+            flex: 1;
+            min-width: 300px;
+            height: 300px;
+            background-color: #f0f4f8;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #a0aec0;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .card-info {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .card-info h3 {
+            font-size: 32px;
+            font-weight: 900;
+            margin: 0 0 15px 0;
+            color: var(--text-dark);
+        }
+
+        .card-info p {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .card-meta {
+            background: #f8fafc;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 25px 0;
+            font-weight: 700;
+            color: #4a5568;
+        }
+
+        .card-meta div {
+            margin-bottom: 8px;
+        }
+
+        .card-meta div:last-child {
+            margin-bottom: 0;
+        }
+
+        .video-container {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 30px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.05);
+        }
+
+        .video-placeholder {
+            width: 100%;
+            height: 500px;
+            background-color: #e2e8f0;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #718096;
+            font-weight: 700;
+            position: relative;
+        }
+
+        .play-btn {
+            width: 80px;
+            height: 80px;
+            background-color: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(255, 107, 0, 0.4);
+            transition: transform 0.2s;
+            position: absolute;
+        }
+
+        .play-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .play-btn::after {
+            content: '';
+            border-style: solid;
+            border-width: 12px 0 12px 20px;
+            border-color: transparent transparent transparent #fff;
+            margin-left: 5px;
+        }
+
+        .projects-section {
+            background-color: #0b345b;
+            padding: 100px 0;
+            overflow: hidden;
+            position: relative;
+            border-radius: 40px;
+            margin: 60px 20px;
+        }
+
+        .projects-title {
+            color: #fff;
+            font-size: 48px;
+            font-weight: 900;
+            margin: 0 0 60px 40px;
+            display: inline-block;
+            position: relative;
+        }
+
+        .projects-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background-color: #fff;
+        }
+
+        .projects-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .photo-card {
+            background-color: #fff;
+            padding: 8px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            border-radius: 4px;
+        }
+
+        .pc-1 {
+            width: 300px;
+            height: 300px;
+            transform: rotate(-4deg);
+        }
+
+        .pc-2 {
+            width: 350px;
+            height: 250px;
+            transform: rotate(2deg);
+            margin-top: -30px;
+        }
+
+        .pc-3 {
+            width: 280px;
+            height: 350px;
+            transform: rotate(5deg);
+        }
+
+        .pc-4 {
+            width: 250px;
+            height: 350px;
+            transform: rotate(-2deg);
+            margin-top: 20px;
+        }
+
+        .pc-5 {
+            width: 400px;
+            height: 280px;
+            transform: rotate(1deg);
+            margin-top: -50px;
+        }
+
+        .pc-6 {
+            width: 250px;
+            height: 320px;
+            transform: rotate(-3deg);
+            margin-top: 10px;
+        }
+
+        .photo-inner {
+            background: #cbd5e1;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #475569;
+            font-weight: 700;
+        }
+
+        .carousel-container {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 60px;
+        }
+
+        .carousel-track {
+            display: flex;
+            gap: 20px;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            padding: 20px 5px;
+        }
+
+        .review-card {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 30px;
+            min-width: 320px;
+            max-width: 320px;
+            flex-shrink: 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+            border: 2px solid #eef2f6;
+        }
+
+        .review-card h4 {
+            font-size: 20px;
+            margin: 0 0 10px 0;
+            color: var(--primary);
+            font-weight: 800;
+        }
+
+        .review-card p {
+            font-size: 15px;
+            color: #4a5568;
+            margin: 0;
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            background-color: #fff;
+            border: 2px solid #eef2f6;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            z-index: 10;
+            font-size: 20px;
+            color: var(--text-dark);
+            transition: all 0.2s;
+        }
+
+        .carousel-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .carousel-prev {
+            left: 0;
+        }
+
+        .carousel-next {
+            right: 0;
+        }
+
+        .faq-accordion {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: #fff;
+            border: 2px solid #eef2f6;
+            border-radius: 20px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            transition: border-color 0.2s;
+        }
+
+        .faq-question {
+            width: 100%;
+            text-align: left;
+            padding: 25px 30px;
+            background: none;
+            border: none;
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--text-dark);
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .faq-question:hover {
+            background-color: #f8fafc;
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            padding: 0 30px;
+            color: #4a5568;
+        }
+
+        .faq-answer p {
+            padding-bottom: 25px;
+            margin: 0;
+        }
+
+        .faq-question.active {
+            color: var(--primary);
+            border-bottom: 2px dashed #e2e8f0;
+            background-color: #f8fafc;
+        }
+
+        /* --- Team Section --- */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .team-card {
+            background: #fff;
+            border-radius: var(--radius-md);
+            padding: 30px;
+            text-align: center;
+            border: 1px solid #f0f0f0;
+            transition: var(--transition);
+        }
+
+        .team-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+        }
+
+        .team-photo {
+            width: 120px;
+            height: 120px;
+            background: #eee;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .team-card h4 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: var(--text-dark);
+        }
+
+        .team-card p {
+            font-size: 14px;
+            color: var(--text-light);
+            line-height: 1.4;
+        }
+
+        /* --- Floating UI --- */
+        .floating-buttons {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        .float-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            color: white;
+        }
+
+        .float-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .btn-up {
+            background-color: var(--primary);
+            visibility: hidden;
+            opacity: 0;
+        }
+
+        .btn-up.visible {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .btn-chat {
+            background-color: #25D366;
+            /* WhatsApp Green or use Primary for generic */
+        }
+
+        .placeholder-img {
+            background-color: #f3f4f6;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #9ca3af;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        footer {
+            background-color: #0d1424;
+            /* Глубокий темно-синий */
+            color: rgba(255, 255, 255, 0.7);
+            padding: 100px 0 60px;
+            font-size: 14px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Фоновое свечение для футера */
+        footer::before {
+            content: '';
+            position: absolute;
+            top: -200px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 800px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(91, 114, 238, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .footer-top-box {
+            background-color: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-lg);
+            /* 40px как на Uchi.ru */
+            padding: 50px;
+            margin-bottom: 70px;
+            backdrop-filter: blur(10px);
+            transition: var(--transition);
+        }
+
+        .footer-top-box:hover {
+            border-color: rgba(91, 114, 238, 0.4);
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .footer-top-box p {
+            font-size: 13px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            color: rgba(255, 255, 255, 0.4);
+            max-width: 900px;
+        }
+
+        .footer-top-box h5 {
+            color: #fff;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+
+        .ministry-links {
+            display: flex;
+            gap: 50px;
+            flex-wrap: wrap;
+        }
+
+        .ministry-links div {
+            flex: 1;
+            min-width: 250px;
+            font-size: 14px;
+        }
+
+        .ministry-links a {
+            color: #7c3aed;
+            text-decoration: none;
+            margin-top: 8px;
+            display: block;
+            font-weight: 700;
+            transition: var(--transition);
+        }
+
+        .ministry-links a:hover {
+            color: #5B72EE;
+            transform: translateX(5px);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 50px;
+        }
+
+        .footer-col {
+            transition: var(--transition);
+        }
+
+        .footer-col:hover {
+            transform: translateY(-5px);
+        }
+
+        .footer-col h4 {
+            color: #fff;
+            margin-bottom: 30px;
+            font-size: 20px;
+            font-weight: 900;
+            position: relative;
+            display: inline-block;
+        }
+
+        .footer-col h4::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -8px;
+            width: 30px;
+            height: 3px;
+            background-color: var(--primary);
+            border-radius: 2px;
+        }
+
+        .footer-col ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+
+        .footer-col li {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: var(--transition);
+        }
+
+        .footer-col li:hover {
+            transform: translateX(5px);
+            color: #fff;
+        }
+
+        /* Стили иконок по скрину 190 */
+        .footer-col li svg {
+            width: 32px;
+            height: 32px;
+            padding: 7px;
+            flex-shrink: 0;
+            color: #fff;
+            background-color: #7c3aed;
+            /* Основной фиолетовый */
+            transition: var(--transition);
+        }
+
+        .footer-col li:nth-child(1) svg,
+        .footer-col li:nth-child(2) svg {
+            border-radius: 50%;
+            /* Круглые для телефонов */
+        }
+
+        .footer-col li:nth-child(n+3) svg {
+            border-radius: 8px;
+            /* Квадратные для мессенджеров */
+        }
+
+        .footer-col li:hover svg {
+            background-color: #5B72EE;
+            transform: scale(1.1);
+        }
+
+        .footer-col a {
+            color: inherit;
+            text-decoration: none;
+            transition: 0.2s;
+            font-weight: 500;
+            font-size: 15px;
+        }
+
+        .document-link {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .qr-section {
+            background: transparent;
+            text-align: center;
+        }
+
+        .qr-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .qr-item {
+            text-align: center;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: 700;
+        }
+
+        .qr-img {
+            width: 85px;
+            height: 85px;
+            background: #fff;
+            margin: 0 auto 10px;
+            border-radius: 16px;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid #7c3aed;
+            box-shadow: 0 0 15px rgba(124, 58, 237, 0.3);
+            transition: var(--transition);
+        }
+
+        .qr-img:hover {
+            transform: scale(1.1) rotate(3deg);
+            box-shadow: 0 0 25px rgba(124, 58, 237, 0.6);
+            border-color: #5B72EE;
+        }
+
+        .qr-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .bonus-box {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border-radius: 16px;
+            padding: 12px 20px;
+            margin-top: 15px;
+            text-align: left;
+            transition: var(--transition);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .bonus-box:hover {
+            background-color: rgba(255, 255, 255, 0.08);
+            border-color: var(--primary);
+        }
+
+        .bonus-box h5 {
+            color: #fff;
+            font-weight: 800;
+            margin: 0;
+            font-size: 13px;
+            text-transform: uppercase;
+        }
+
+        .bonus-box p {
+            font-size: 11px;
+            margin: 2px 0 0 0;
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1.2;
+        }
+
+        /* Staggered Delay for footer columns */
+        .footer-grid .footer-col:nth-child(1) {
+            transition-delay: 0.1s;
+        }
+
+        .footer-grid .footer-col:nth-child(2) {
+            transition-delay: 0.2s;
+        }
+
+        .footer-grid .footer-col:nth-child(3) {
+            transition-delay: 0.3s;
+        }
+
+        .footer-grid .footer-col:nth-child(4) {
+            transition-delay: 0.4s;
+        }
+
+        /* Mobile Adaptation */
+        @media (max-width: 768px) {
+            header {
+                padding: 5px 0;
+            }
+
+            .header-inner {
+                flex-direction: column;
+                gap: 0;
+                padding: 5px 0;
+            }
+
+            .logo {
+                font-size: 24px;
+                margin-bottom: 5px;
+            }
+
+            .nav-links {
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                width: 100%;
+                padding: 10px 20px;
+                justify-content: flex-start;
+                gap: 20px;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+            }
+
+            .nav-links::-webkit-scrollbar {
+                display: none;
+            }
+
+            .nav-links a {
+                flex-shrink: 0;
+                white-space: nowrap;
+                font-size: 13px;
+                font-weight: 800;
+                color: #333;
+            }
+
+            .nav-links::after {
+                content: '';
+                flex: 0 0 40px;
+            }
+
+            .hero {
+                padding: 80px 24px 40px;
+                border-radius: 0 0 30px 30px;
+            }
+
+            .hero h1 {
+                font-size: 28px;
+            }
+
+            .hero p {
+                font-size: 15px;
+                margin-bottom: 30px;
+            }
+
+            .section-title {
+                font-size: 28px;
+            }
+
+            .event-card,
+            .course-card {
+                flex-direction: column;
+                padding: 30px;
+                gap: 30px;
+            }
+
+            .card-image {
+                height: 200px;
+                width: 100%;
+                min-width: 100%;
+                border-radius: 20px;
+            }
+
+            .card-info {
+                min-width: 100%;
+            }
+
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .projects-gallery {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+                padding: 0 10px;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .footer-top-box {
+                padding: 20px;
+            }
+
+            .qr-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="header-inner">
+            <a href="#" class="logo">УЧИ.РУ</a>
+            <nav class="nav-links">
+                <a href="#events">Мероприятия</a>
+                <a href="#courses">Направления</a>
+                <a href="#video">Как проходят занятия</a>
+                <a href="#projects">Поделки ребят</a>
+                <a href="#reviews">Отзывы</a>
+                <a href="#faq">Вопросы</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="hero">
+        <div class="container reveal">
+            <h1>Технические занятия<br>для детей от 7 лет</h1>
+            <p>Выбирайте направление, изучайте электронику и создавайте потрясающие проекты своими руками!</p>
+            <a href="#courses" class="btn">Записаться на занятия</a>
+        </div>
+    </div>
+
+    <section class="content-section container reveal" id="events">
+        <h2 class="section-title">Ближайшие мероприятия</h2>
+        <div class="event-card">
+            <div class="card-image"
+                style="background-image: url('bat-signal.jpg'); background-size: cover; background-position: center;">
+            </div>
+            <div class="card-info">
+                <h3>Мастер-класс «Бет-сигнал»</h3>
+                <p>На мастер-классе дети соберут легендарный прожектор для вызова Бэтмена! Ребята спаяют схему с мощным
+                    светодиодом, объединят её с деталями, распечатанными на 3D принтере, и узнают, как работают линзы и
+                    свет.</p>
+                <p>Готовую поделку — настоящий светящийся прожектор — можно забрать с собой и использовать дома.</p>
+                <div class="card-meta">
+                    <div style="font-size: 20px; color: var(--accent); margin-top: 15px;">Стоимость: 1600 руб.</div>
+                </div>
+                <a href="#" class="btn">Записаться</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section container reveal" id="courses">
+        <h2 class="section-title">Наши направления</h2>
+        <div class="course-card">
+            <div class="card-image"
+                style="background-image: url('course-electronics.jpg'); background-size: cover; background-position: center;">
+            </div>
+            <div class="card-info">
+                <h3>Электроника</h3>
+                <p>Ребята знакомятся с принципами создания электрических цепей. Узнают основные электронные компоненты,
+                    их названия, назначение и учатся создавать электрические приборы и игрушки.</p>
+                <div class="card-meta">
+                    <div>Для детей от 7 лет</div>
+                    <div>1 раз в неделю, 60 минут</div>
+                    <div style="font-size: 20px; color: var(--text-dark); margin-top: 15px;">4 занятия - 5400 р.</div>
+                </div>
+                <a href="#" class="btn">Записаться</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section container reveal" id="video">
+        <h2 class="section-title">Как проходят занятия</h2>
+        <div class="video-container"
+            style="max-width: 800px; margin: 0 auto; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.1); background: #eee;">
+            <video controls
+                poster="video-poster.jpg"
+                style="width: 100%; display: block;">
+                <source src="lessons_video.mp4" type="video/mp4">
+                Ваш браузер не поддерживает видео.
+            </video>
+        </div>
+    </section>
+
+    <section class="projects-section reveal" id="projects">
+        <div class="container">
+            <h2 class="projects-title">Проделки ребят</h2>
+            <div class="projects-gallery">
+                <div class="photo-card pc-1">
+                    <div class="photo-inner"
+                        style="background-image: url('robot-3d.png'); background-size: cover; background-position: center;">
+                    </div>
+                </div>
+                <div class="photo-card pc-2">
+                    <div class="photo-inner"
+                        style="background-image: url('gal-2.jpg'); background-size: cover; background-position: center;">
+                    </div>
+                </div>
+                <div class="photo-card pc-3">
+                    <div class="photo-inner"
+                        style="background-image: url('gal-3.jpg'); background-size: cover; background-position: center;">
+                    </div>
+                </div>
+                <div class="photo-card pc-4">
+                    <div class="photo-inner"
+                        style="background-image: url('gal-4.jpg'); background-size: cover; background-position: center;">
+                    </div>
+                </div>
+                <div class="photo-card pc-5">
+                    <div class="photo-inner"
+                        style="background-image: url('gal-5.jpg'); background-size: cover; background-position: center;">
+                    </div>
+                </div>
+                <div class="photo-card pc-6">
+                    <div class="photo-inner"
+                        style="background-image: url('gal-6.jpg'); background-size: cover; background-position: center;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section container reveal" id="team">
+        <h2 class="section-title">Вдохновляющая команда ✨</h2>
+        <div class="team-grid">
+            <div class="team-card">
+                <div class="team-photo"
+                    style="background-image: url('team-svetlana.jpg'); background-size: cover; background-position: 110% center;">
+                </div>
+                <h4>Полякова Светлана</h4>
+                <p>Руководитель регионального представительства Учи.ру.</p>
+            </div>
+            <div class="team-card">
+                <div class="team-photo"
+                    style="background-image: url('team-oleg.jpg'); background-size: cover; background-position: center;">
+                </div>
+                <h4>Вагин Олег</h4>
+                <p>Наставник по программированию и электронике.</p>
+            </div>
+            <div class="team-card">
+                <div class="team-photo"
+                    style="background-image: url('team-liya.jpg'); background-size: cover; background-position: center;">
+                </div>
+                <h4>Лия Бояршинова</h4>
+                <p>Наставница по Scratch и английскому языку.</p>
+            </div>
+            <div class="team-card">
+                <div class="team-photo"
+                    style="background-image: url('team-veronika.jpg'); background-size: cover; background-position: center;">
+                </div>
+                <h4>Вероника К.</h4>
+                <p>Наставница по нейросетям и видеоблогингу.</p>
+            </div>
+            <div class="team-card">
+                <div class="team-photo"
+                    style="background-image: url('team-nikita.jpg'); background-size: cover; background-position: center;">
+                </div>
+                <h4>Никита Г.</h4>
+                <p>Наставник по программированию.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section container reveal" id="reviews">
+        <h2 class="section-title">Отзывы родителей</h2>
+        <div class="carousel-container">
+            <button class="carousel-btn carousel-prev" id="prevBtn">&#8592;</button>
+            <div class="carousel-track" id="track">
+                <div class="review-card">
+                    <h4>Марина М.</h4>
+                    <p>За три года клуб стал нам уже родным домом. Уютная атмосфера, интересные занятия, чудесные
+                        преподаватели. В классе всё продумано и по технике безопасности. Поделки вызывают восторг.</p>
+                </div>
+                <div class="review-card">
+                    <p>Спасибо Вам большое, за знания и навыки, которые дети приобретают на ваших увлекательных уроках.
+                    </p>
+                </div>
+                <div class="review-card">
+                    <h4>Ольга П.</h4>
+                    <p>Сын после посещения ваших мастер-классов сам собирал мебель. Смело пользуется шуруповертом и
+                        отвертками. Помогает дома с ремонтом, все сам. Очень нравятся инструменты.</p>
+                </div>
+                <div class="review-card">
+                    <h4>Юлия Б.</h4>
+                    <p>Очень классный инженерный детский клуб. Грамотные преподаватели, все очень удобно и безопасно
+                        устроено! Можно смело записываться на все направления.</p>
+                </div>
+            </div>
+            <button class="carousel-btn carousel-next" id="nextBtn">&#8594;</button>
+        </div>
+    </section>
+
+    <section class="content-section container reveal" id="faq">
+        <h2 class="section-title">Популярные вопросы</h2>
+        <div class="faq-accordion">
+            <div class="faq-item">
+                <button class="faq-question">Какой средний возраст детей на занятиях?</button>
+                <div class="faq-answer">
+                    <p style="padding-top: 15px;">Программа по электронике рассчитана на детей от 7 до 11 лет.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">Сколько детей в группе?</button>
+                <div class="faq-answer">
+                    <p style="padding-top: 15px;">Для обеспечения индивидуального подхода в группах занимается от 8 до
+                        12 детей.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">Как проходят занятия?</button>
+                <div class="faq-answer">
+                    <p style="padding-top: 15px;">На занятиях почти отсутствует сухая теория. 5-7 минут от урока
+                        преподаватель объясняет новую тему, а дальше — практика. Ребята сразу приступают к изготовлению
+                        устройства, которое потом можно будет забрать домой.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">Насколько безопасны занятия?</button>
+                <div class="faq-answer">
+                    <p style="padding-top: 15px;">Каждое занятие дети проходят инструктаж по технике безопасности.
+                        Рабочее место оборудовано так, чтобы свести риски получения травмы к минимуму. В клубе всегда в
+                        наличии укомплектованная аптечка.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contacts">
+        <div class="container">
+            <div class="footer-top-box">
+                <p>Приказ Минпросвещения России от 31.08.2023 N 650 "Об утверждении Порядка осуществления мероприятий по
+                    профессиональной ориентации обучающихся по образовательным программам основного общего и среднего
+                    общего образования" (Зарегистрировано в Минюсте России 05.10.2023 N 75467)</p>
+                <h5>КОНТАКТНЫЕ ДАННЫЕ КОНТРОЛИРУЮЩИХ ОРГАНОВ:</h5>
+                <div class="ministry-links">
+                    <div>
+                        Министерство науки и высшего образования Российской Федерации<br>
+                        <a href="https://minobrnauki.gov.ru">minobrnauki.gov.ru</a>
+                    </div>
+                    <div>
+                        Министерство просвещения Российской Федерации<br>
+                        <a href="https://edu.gov.ru">edu.gov.ru</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-grid">
+                <div class="footer-col reveal">
+                    <h4>Контакты</h4>
+                    <ul>
+                        <li><svg viewBox="0 0 24 24" width="20" height="20" fill="white">
+                                <path
+                                    d="M6.62,10.79C8.06,13.62 10.38,15.94 13.21,17.38L15.41,15.18C15.69,14.9 16.08,14.82 16.43,14.93C17.55,15.3 18.75,15.5 20,15.5A1,1 0 0,1 21,16.5V20A1,1 0 0,1 20,21A17,17 0 0,1 3,4A1,1 0 0,1 4,3H7.5A1,1 0 0,1 8.5,4C8.5,5.25 8.7,6.45 9.07,7.57C9.18,7.92 9.1,8.31 8.82,8.59L6.62,10.79Z" />
+                            </svg> <a href="tel:+79617585828">+7 (961) 758-58-28</a></li>
+                        <li><svg viewBox="0 0 24 24" width="20" height="20" fill="white">
+                                <path
+                                    d="M6.62,10.79C8.06,13.62 10.38,15.94 13.21,17.38L15.41,15.18C15.69,14.9 16.08,14.82 16.43,14.93C17.55,15.3 18.75,15.5 20,15.5A1,1 0 0,1 21,16.5V20A1,1 0 0,1 20,21A17,17 0 0,1 3,4A1,1 0 0,1 4,3H7.5A1,1 0 0,1 8.5,4C8.5,5.25 8.7,6.45 9.07,7.57C9.18,7.92 9.1,8.31 8.82,8.59L6.62,10.79Z" />
+                            </svg> <a href="tel:+73422015045">+7 (342) 201-50-45</a></li>
+                        <li><svg viewBox="0 0 24 24" width="20" height="20" fill="white">
+                                <path
+                                    d="M12,8H4A2,2 0 0,0 2,10V14A2,2 0 0,0 4,16H5L11,22V2L5,8H4M16.5,12C16.5,10.23 15.5,8.71 14,7.97V16.02C15.5,15.29 16.5,13.77 16.5,12Z" />
+                            </svg> <a href="https://clck.ru/3SheAh">Макс канал</a></li>
+                        <li><svg viewBox="0 0 24 24" width="20" height="20" fill="white">
+                                <path
+                                    d="M18,15c0,0.55-0.45,1-1,1h-4l-4,4v-4H5c-0.55,0-1-0.45-1-1V5c0-0.55,0.45-1,1-1h12c0.55,0,1,0.45,1,1V15z" />
+                            </svg> <a href="https://clck.ru/3Shekw">Макс чат</a></li>
+                        <li><svg viewBox="0 0 24 24" width="20" height="20" fill="white">
+                                <path
+                                    d="M13.16 20C6.45 20 2 15.54 2 8.78s4.45-11.22 11.22-11.22S24.38 2.1 24.38 8.86 19.87 20 13.16 20zm5.1-13c-.15-.05-.3-.05-.4-.05h-10c-.15 0-.3.05-.4.15s-.15.3-.1.45l1.6 6.3c.05.2.2.35.4.35h2.4v1.8c0 .2.15.4.35.4s.35-.15.35-.4v-1.8H15c.2 0 .35-.15.4-.35l1.6-6.3c.05-.15 0-.35-.1-.45s-.3-.15-.45-.1z" />
+                            </svg> <a href="https://vk.com/uchi.ru_center_perm1080">vk.com/uchi.ru_center_perm1080</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="footer-col reveal" style="flex: 1.2;">
+                    <h4>Реквизиты</h4>
+                    <ul style="opacity: 0.6; font-size: 13px;">
+                        <li style="font-weight: 700; color: #fff;">ИП Полякова Светлана Анатольевна</li>
+                        <li>ИНН: 590505032870</li>
+                        <li>ОГРНИП: 324595800106154</li>
+                        <li>Детский центр Учи.ру в Перми</li>
+                    </ul>
+                </div>
+
+                <div class="footer-col reveal">
+                    <h4>Документы</h4>
+                    <ul>
+                        <li><svg viewBox="0 0 24 24" width="16" fill="currentColor" style="opacity: 0.5;">
+                                <path
+                                    d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z" />
+                            </svg> <a href="https://erp.uchi.ru/personal-data/perm1087_3" class="document-link">Политика
+                                конфиденциальности</a></li>
+                        <li><svg viewBox="0 0 24 24" width="16" fill="currentColor" style="opacity: 0.5;">
+                                <path
+                                    d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z" />
+                            </svg> <a href="https://erp.uchi.ru/offer-doc/perm1087_3" class="document-link">Договор
+                                оферты</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col reveal">
+                    <div class="qr-section">
+                        <h4>Наши ресурсы</h4>
+                        <div class="qr-grid">
+                            <div class="qr-item">
+                                <a href="https://center.uchi.ru/perm/perm1087_3" target="_blank" class="qr-img">
+                                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://center.uchi.ru/perm/perm1087_3"
+                                        alt="Платформа QR">
+                                </a>
+                                <span>Платформа</span>
+                            </div>
+                            <div class="qr-item">
+                                <a href="https://vk.com/uchi.ru_center_perm1080" target="_blank" class="qr-img">
+                                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://vk.com/uchi.ru_center_perm1080"
+                                        alt="ВКонтакте QR">
+                                </a>
+                                <span>ВКонтакте</span>
+                            </div>
+                            <div class="qr-item">
+                                <a href="https://clck.ru/3SheAh" target="_blank" class="qr-img">
+                                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://clck.ru/3SheAh"
+                                        alt="Макс канал QR">
+                                </a>
+                                <span>Макс канал</span>
+                            </div>
+                            <div class="qr-item">
+                                <a href="https://clck.ru/3Shekw" target="_blank" class="qr-img">
+                                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://clck.ru/3Shekw"
+                                        alt="Макс чат QR">
+                                </a>
+                                <span>Макс чат</span>
+                            </div>
+                        </div>
+                        <div class="bonus-box">
+                            <div style="font-size: 24px;">🎁</div>
+                            <div>
+                                <h5>ПОДАРОК ЗА ПОДПИСКУ</h5>
+                                <p>Сканируйте коды Макс и забирайте бонус</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 60px; opacity: 0.3; font-size: 11px;">
+                © 2026 ДЕТСКИЙ ТЕХНИЧЕСКИЙ ЦЕНТР УЧИ.РУ В ПЕРМИ. ВСЕ ПРАВА ЗАЩИЩЕНЫ.
+            </div>
+        </div>
+    </footer>
+
+    <div class="floating-buttons">
+        <button class="float-btn btn-up" id="btnUp">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                <path d="M7.41,15.41L12,10.83L16.59,15.41L18,14L12,8L6,14L7.41,15.41Z" />
+            </svg>
+        </button>
+        <a href="https://clck.ru/3Shekw" class="float-btn btn-chat" target="_blank">
+            <svg viewBox="0 0 24 24" width="30" height="30" fill="currentColor">
+                <path
+                    d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22C10.89,22 9.83,21.82 8.85,21.5L2,22L3.5,15.65C2.56,14.6 2,13.35 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12C4,13.22 4.39,14.36 5.04,15.3L4.47,19.47L8.7,18.9C9.71,19.61 10.81,20 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4Z" />
+            </svg>
+        </a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Слайдер отзывов ---
+            const track = document.getElementById('track');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const cardWidth = 340;
+
+            if (nextBtn && prevBtn) {
+                nextBtn.addEventListener('click', () => {
+                    track.scrollBy({ left: cardWidth, behavior: 'smooth' });
+                });
+
+                prevBtn.addEventListener('click', () => {
+                    track.scrollBy({ left: -cardWidth, behavior: 'smooth' });
+                });
+            }
+
+            // --- Аккордеон FAQ ---
+            const questions = document.querySelectorAll(".faq-question");
+            questions.forEach(question => {
+                question.addEventListener("click", () => {
+                    const answer = question.nextElementSibling;
+                    const isOpen = answer.style.maxHeight;
+
+                    document.querySelectorAll(".faq-answer").forEach(ans => {
+                        ans.style.maxHeight = null;
+                        ans.previousElementSibling.classList.remove("active");
+                    });
+
+                    if (!isOpen) {
+                        answer.style.maxHeight = answer.scrollHeight + "px";
+                        question.classList.add("active");
+                    }
+                });
+            });
+
+            // --- Анимации появления (Reveal) ---
+            const revealCallback = (entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            };
+
+            const revealObserver = new IntersectionObserver(revealCallback, {
+                threshold: 0.1
+            });
+
+            document.querySelectorAll('.reveal').forEach(el => {
+                revealObserver.observe(el);
+            });
+
+            // --- Кнопка Наверх ---
+            const btnUp = document.getElementById('btnUp');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 500) {
+                    btnUp.classList.add('visible');
+                } else {
+                    btnUp.classList.remove('visible');
+                }
+            });
+
+            btnUp.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            // --- Hide Header on Scroll Down / Show on Up (Mobile) ---
+            let lastScrollTop = 0;
+            const menuHeader = document.querySelector('header');
+            window.addEventListener('scroll', () => {
+                let st = window.pageYOffset || document.documentElement.scrollTop;
+                if (window.innerWidth < 768) {
+                    if (st > lastScrollTop && st > 150) {
+                        menuHeader.classList.add('hide'); // Scrolling Down
+                    } else if (st < lastScrollTop) {
+                        menuHeader.classList.remove('hide'); // Scrolling Up
+                    }
+                }
+                lastScrollTop = st <= 0 ? 0 : st;
+            });
+        });
+    </script>
+</body>
+
+</html>
