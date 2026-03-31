@@ -1257,10 +1257,11 @@
                 min-height: 250px !important;
                 width: 100% !important;
                 min-width: 100% !important;
-                flex: none !important; /* спасает от схлопывания (исчезновения) фотоки */
+                flex: none !important;
+                /* спасает от схлопывания (исчезновения) фотоки */
                 display: block !important;
                 border-radius: 20px !important;
-                box-shadow: 0 10px 30px rgba(0,0,0,0.1) !important;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
             }
 
             .card-info {
@@ -1993,50 +1994,81 @@
                 margin-top: 10px;
             }
         }
+
         /* --- Крутые Анимации (AI) --- */
         @keyframes float-hero {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
-            100% { transform: translateY(0px); }
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-15px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
         }
-        
-        .hero-image-box img, .trial-mascot-img {
+
+        .hero-image-box img,
+        .trial-mascot-img {
             animation: float-hero 4s ease-in-out infinite;
         }
 
         @keyframes shine {
-            0% { left: -100%; top: -100%; }
-            20% { left: 200%; top: 200%; }
-            100% { left: 200%; top: 200%; }
+            0% {
+                left: -100%;
+                top: -100%;
+            }
+
+            20% {
+                left: 200%;
+                top: 200%;
+            }
+
+            100% {
+                left: 200%;
+                top: 200%;
+            }
         }
 
-        .btn, .huge-btn {
+        .btn,
+        .huge-btn {
             position: relative;
             overflow: hidden;
             z-index: 1;
         }
 
-        .btn::after, .huge-btn::after {
+        .btn::after,
+        .huge-btn::after {
             content: '';
             position: absolute;
-            top: 0; 
+            top: 0;
             left: -100%;
-            width: 50%; 
+            width: 50%;
             height: 100%;
-            background: linear-gradient(to right, transparent, rgba(255,255,255,0.4), transparent);
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.4), transparent);
             transform: skewX(-25deg);
             animation: shine 5s infinite cubic-bezier(0.19, 1, 0.22, 1);
             z-index: -1;
         }
 
         /* Hover popping для карточек */
-        .team-card, .review-card, .program-card, .price-card, .value-card {
+        .team-card,
+        .review-card,
+        .program-card,
+        .price-card,
+        .value-card {
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        
-        .team-card:hover, .review-card:hover, .program-card:hover, .price-card:hover, .value-card:hover {
+
+        .team-card:hover,
+        .review-card:hover,
+        .program-card:hover,
+        .price-card:hover,
+        .value-card:hover {
             transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
             z-index: 2;
         }
 
@@ -2045,19 +2077,27 @@
             transform: rotate(15deg) scale(1.1);
             box-shadow: 0 10px 20px rgba(124, 58, 237, 0.5) !important;
         }
+
         .summer-item div {
             transition: all 0.3s ease;
         }
 
         /* Медленное вращение фоновых кругов в главном блоке */
         @keyframes spinSlow {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
         }
+
         .hero-image-circles::before {
             animation: spinSlow 40s linear infinite;
             border-style: dashed !important;
         }
+
         .hero-image-circles::after {
             animation: spinSlow 30s linear reverse infinite;
             border-style: dotted !important;
@@ -2066,9 +2106,17 @@
 
         /* Покачивание бабочки */
         @keyframes wiggle {
-            0%, 100% { transform: rotate(-10deg) scale(1); }
-            50% { transform: rotate(10deg) scale(1.15); }
+
+            0%,
+            100% {
+                transform: rotate(-10deg) scale(1);
+            }
+
+            50% {
+                transform: rotate(10deg) scale(1.15);
+            }
         }
+
         .summer-left span {
             display: inline-block;
             animation: wiggle 2s ease-in-out infinite;
@@ -2077,10 +2125,19 @@
 
         /* Переливающийся градиент для главного заголовка */
         @keyframes gradientMove {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
         }
+
         .hero-text-box h1 {
             background: linear-gradient(270deg, #1e293b, var(--secondary), var(--primary), #1e293b);
             background-size: 300% 300%;
@@ -2091,7 +2148,7 @@
         }
 
         /* --- ГЛОБАЛЬНЫЕ МАКРО-АНИМАЦИИ --- */
-        
+
         /* Каскадное (поочередное) появление карточек */
         .reveal.active .value-card,
         .reveal.active .program-card,
@@ -2101,95 +2158,214 @@
             opacity: 0;
             transform: translateY(30px) scale(0.95);
         }
+
         @keyframes popIn {
-            to { opacity: 1; transform: translateY(0) scale(1); }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
         }
-        
-        .reveal.active .value-card:nth-child(2), .reveal.active .program-card:nth-child(2), .reveal.active .price-card:nth-child(2), .reveal.active .photo-card:nth-child(2) { animation-delay: 0.1s; }
-        .reveal.active .value-card:nth-child(3), .reveal.active .program-card:nth-child(3), .reveal.active .price-card:nth-child(3), .reveal.active .photo-card:nth-child(3) { animation-delay: 0.2s; }
-        .reveal.active .value-card:nth-child(4), .reveal.active .program-card:nth-child(4), .reveal.active .price-card:nth-child(4), .reveal.active .photo-card:nth-child(4) { animation-delay: 0.3s; }
-        .reveal.active .value-card:nth-child(5), .reveal.active .program-card:nth-child(5), .reveal.active .price-card:nth-child(5), .reveal.active .photo-card:nth-child(5) { animation-delay: 0.4s; }
-        .reveal.active .value-card:nth-child(6), .reveal.active .program-card:nth-child(6), .reveal.active .price-card:nth-child(6), .reveal.active .photo-card:nth-child(6) { animation-delay: 0.5s; }
+
+        .reveal.active .value-card:nth-child(2),
+        .reveal.active .program-card:nth-child(2),
+        .reveal.active .price-card:nth-child(2),
+        .reveal.active .photo-card:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+
+        .reveal.active .value-card:nth-child(3),
+        .reveal.active .program-card:nth-child(3),
+        .reveal.active .price-card:nth-child(3),
+        .reveal.active .photo-card:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+
+        .reveal.active .value-card:nth-child(4),
+        .reveal.active .program-card:nth-child(4),
+        .reveal.active .price-card:nth-child(4),
+        .reveal.active .photo-card:nth-child(4) {
+            animation-delay: 0.3s;
+        }
+
+        .reveal.active .value-card:nth-child(5),
+        .reveal.active .program-card:nth-child(5),
+        .reveal.active .price-card:nth-child(5),
+        .reveal.active .photo-card:nth-child(5) {
+            animation-delay: 0.4s;
+        }
+
+        .reveal.active .value-card:nth-child(6),
+        .reveal.active .program-card:nth-child(6),
+        .reveal.active .price-card:nth-child(6),
+        .reveal.active .photo-card:nth-child(6) {
+            animation-delay: 0.5s;
+        }
 
         /* Подчеркивание заголовков, которое рисуется из центра */
-        .section-title { position: relative; padding-bottom: 12px; }
+        .section-title {
+            position: relative;
+            padding-bottom: 12px;
+        }
+
         .section-title::after {
             content: '';
-            position: absolute; height: 5px;
-            bottom: 0; left: 50%;
+            position: absolute;
+            height: 5px;
+            bottom: 0;
+            left: 50%;
             transform: translateX(-50%);
             background: linear-gradient(90deg, var(--secondary), var(--primary));
             border-radius: 3px;
         }
+
         @media(min-width: 900px) {
             .reveal.active .section-title::after {
                 animation: drawLine 1s ease forwards 0.3s;
             }
         }
+
         @keyframes drawLine {
-            0% { width: 0; opacity: 0; }
-            40% { opacity: 1; }
-            100% { width: 140px; opacity: 1; }
+            0% {
+                width: 0;
+                opacity: 0;
+            }
+
+            40% {
+                opacity: 1;
+            }
+
+            100% {
+                width: 140px;
+                opacity: 1;
+            }
         }
+
         @media(max-width: 899px) {
             .reveal.active .section-title::after {
                 animation: drawLineMobile 1s ease forwards 0.3s;
             }
         }
+
         @keyframes drawLineMobile {
-            0% { width: 0; opacity: 0; }
-            40% { opacity: 1; }
-            100% { width: 100px; opacity: 1; }
+            0% {
+                width: 0;
+                opacity: 0;
+            }
+
+            40% {
+                opacity: 1;
+            }
+
+            100% {
+                width: 100px;
+                opacity: 1;
+            }
         }
 
         /* Постоянная пульсация бейджа "Популярно" */
-        .popular-badge { animation: subtlePulse 2s infinite alternate; }
+        .popular-badge {
+            animation: subtlePulse 2s infinite alternate;
+        }
+
         @keyframes subtlePulse {
-            from { transform: translateX(-50%) scale(1); box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3); }
-            to { transform: translateX(-50%) scale(1.08); box-shadow: 0 10px 25px rgba(255, 107, 107, 0.6); }
+            from {
+                transform: translateX(-50%) scale(1);
+                box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+            }
+
+            to {
+                transform: translateX(-50%) scale(1.08);
+                box-shadow: 0 10px 25px rgba(255, 107, 107, 0.6);
+            }
         }
 
         /* Эффект увеличения картинок при наведении (Zoom effect) */
-        .card-image { transition: transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1); }
-        .event-card { overflow: hidden; }
-        .course-card { overflow: hidden; }
-        .event-card:hover .card-image, .course-card:hover .card-image { transform: scale(1.06); }
-        
+        .card-image {
+            transition: transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .event-card {
+            overflow: hidden;
+        }
+
+        .course-card {
+            overflow: hidden;
+        }
+
+        .event-card:hover .card-image,
+        .course-card:hover .card-image {
+            transform: scale(1.06);
+        }
+
         /* Увеличение фото в галерее при наведении */
-        .photo-inner { transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1) !important; }
-        .photo-card:hover .photo-inner { transform: scale(1.1) !important; }
+        .photo-inner {
+            transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
+        }
+
+        .photo-card:hover .photo-inner {
+            transform: scale(1.1) !important;
+        }
 
         /* Анимированный сдвиг пунктов FAQ */
-        .faq-item { transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease; border-left: 3px solid transparent; }
-        .faq-item:hover { transform: translateX(8px); border-left: 3px solid var(--primary); box-shadow: 0 8px 25px rgba(0,0,0,0.06); }
-        
+        .faq-item {
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .faq-item:hover {
+            transform: translateX(8px);
+            border-left: 3px solid var(--primary);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+        }
+
         /* Плавное изменение цвета стрелочки в FAQ */
-        .faq-question::after { transition: all 0.4s ease; }
-        .faq-question.active::after { color: var(--primary); transform: translateY(-50%) rotate(180deg) scale(1.2); }
+        .faq-question::after {
+            transition: all 0.4s ease;
+        }
+
+        .faq-question.active::after {
+            color: var(--primary);
+            transform: translateY(-50%) rotate(180deg) scale(1.2);
+        }
 
         /* --- СОЧНЫЕ ЭФФЕКТЫ ДЛЯ МОБИЛОК --- */
         @media (max-width: 768px) {
+
             /* Округлые и парящие элементы в стиле мобильных App */
+            .container {
+                padding-left: 15px !important;
+                padding-right: 15px !important;
+                overflow-x: hidden;
+            }
+
+            /* Не дает вылезать за края */
+
             .hero-text-box {
                 border-radius: 40px !important;
                 padding: 40px 20px 60px 20px !important;
                 box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15) !important;
-                margin-bottom: -50px !important;
-                border: 2px solid rgba(255,255,255,0.5) !important;
+                margin: 0 5px -50px 5px !important;
+                /* Убрал края от экрана */
+                width: auto !important;
+                border: 2px solid rgba(255, 255, 255, 0.5) !important;
                 backdrop-filter: blur(10px);
-                background: linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.95) 100%) !important;
+                background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.95) 100%) !important;
             }
+
             .hero-text-box h1 {
-                font-size: 42px !important;
+                font-size: 31px !important;
+                /* "Технические занятия" влазит в одну строку */
                 line-height: 1.15 !important;
                 margin-bottom: 15px !important;
             }
+
             .hero-image-box img {
                 width: 280px !important;
                 height: 280px !important;
-                box-shadow: 0 20px 50px rgba(0,0,0,0.3) !important;
+                box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3) !important;
                 border: 4px solid #fff !important;
             }
+
             .hero-image-circles {
                 width: 300px !important;
                 height: 300px !important;
@@ -2200,15 +2376,18 @@
                 padding: 35px 20px !important;
                 border-radius: 35px !important;
                 box-shadow: 0 25px 60px rgba(79, 45, 171, 0.12) !important;
-                border: 1px solid rgba(255,255,255,0.8) !important;
+                border: 1px solid rgba(255, 255, 255, 0.8) !important;
+                margin: 0 5px !important;
+                /* Отступ от краев экрана */
+                width: auto !important;
             }
-            
+
             .trial-input {
                 padding: 20px 25px !important;
                 border-radius: 20px !important;
                 font-size: 16px !important;
                 background: #f8fafc !important;
-                box-shadow: inset 0 2px 5px rgba(0,0,0,0.02) !important;
+                box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.02) !important;
                 border: 1px solid #e2e8f0 !important;
             }
 
@@ -2219,14 +2398,55 @@
                 box-shadow: 0 15px 30px rgba(255, 107, 107, 0.3) !important;
             }
 
-            .value-card, .price-card, .program-card, .event-card, .course-card {
+            .value-card,
+            .price-card,
+            .program-card,
+            .event-card,
+            .course-card {
                 border-radius: 30px !important;
-                box-shadow: 0 15px 35px rgba(0,0,0,0.06) !important;
+                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.06) !important;
             }
 
             .section-title {
-                font-size: 34px !important;
+                font-size: 32px !important;
+                padding-left: 10px;
+                padding-right: 10px;
             }
+
+            /* Нативный свайп (прокрутка) для отзывов на телефонах */
+            .carousel-container {
+                padding: 0 !important;
+            }
+
+            .carousel-btn {
+                display: none !important;
+            }
+
+            /* Прячем стрелки кнопок */
+            .carousel-track {
+                overflow-x: auto !important;
+                scroll-snap-type: x mandatory;
+                scrollbar-width: none;
+                -ms-overflow-style: none;
+                flex-wrap: nowrap !important;
+                padding: 10px 15px 30px 15px !important;
+                margin: 0 -15px !important;
+                /* компенсируем отступ контейнера */
+                justify-content: flex-start !important;
+            }
+
+            .carousel-track::-webkit-scrollbar {
+                display: none;
+            }
+
+            .review-card {
+                scroll-snap-align: center;
+                min-width: 85% !important;
+                /* Чтобы было видно кусочек следующей карточки */
+                max-width: 85% !important;
+                margin-right: 15px;
+            }
+
             /* Мягкое появление (меньший сдвиг, чтобы не прыгал скролл) */
             .reveal.active .value-card,
             .reveal.active .program-card,
@@ -2234,14 +2454,23 @@
             .reveal.active .photo-card {
                 transform: translateY(15px) scale(0.95);
             }
+
             @keyframes popIn {
-                to { opacity: 1; transform: translateY(0) scale(1); }
+                to {
+                    opacity: 1;
+                    transform: translateY(0) scale(1);
+                }
             }
 
             /* Тактильный отклик (juicy tap) на кнопках и карточках */
-            .btn:active, .huge-btn:active, .price-card:active, .program-card:active, .event-card:active, .value-card:active {
+            .btn:active,
+            .huge-btn:active,
+            .price-card:active,
+            .program-card:active,
+            .event-card:active,
+            .value-card:active {
                 transform: scale(0.96) !important;
-                box-shadow: 0 5px 15px rgba(0,0,0,0.05) !important;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05) !important;
                 transition: transform 0.1s ease, box-shadow 0.1s ease !important;
             }
 
@@ -2249,10 +2478,22 @@
             .huge-btn {
                 animation: pulseGlowMobile 2.5s infinite;
             }
+
             @keyframes pulseGlowMobile {
-                0% { box-shadow: 0 0 0 0 rgba(255, 97, 112, 0.5); transform: scale(1); }
-                50% { box-shadow: 0 0 0 15px rgba(255, 97, 112, 0); transform: scale(1.02); }
-                100% { box-shadow: 0 0 0 0 rgba(255, 97, 112, 0); transform: scale(1); }
+                0% {
+                    box-shadow: 0 0 0 0 rgba(255, 97, 112, 0.5);
+                    transform: scale(1);
+                }
+
+                50% {
+                    box-shadow: 0 0 0 15px rgba(255, 97, 112, 0);
+                    transform: scale(1.02);
+                }
+
+                100% {
+                    box-shadow: 0 0 0 0 rgba(255, 97, 112, 0);
+                    transform: scale(1);
+                }
             }
         }
     </style>
@@ -2280,7 +2521,7 @@
                 <div class="hero-text-box">
                     <h1>Технические<br>занятия</h1>
                     <p>для детей от 6 лет в Перми</p>
-                    <a href="https://forms.amocrm.ru/rczvvlc" class="btn" target="_blank">Записаться на занятия</a>
+                    <a href="https://forms.amocrm.ru/rcxltdv" class="btn" target="_blank">Записаться на занятия</a>
                 </div>
                 <div class="hero-image-box">
                     <div class="hero-image-circles">
@@ -2343,7 +2584,7 @@
                     свет.</p>
                 <p>Готовую поделку — настоящий светящийся прожектор — можно забрать с собой и использовать дома.</p>
 
-                <a href="https://forms.amocrm.ru/rczvvlc" class="btn" target="_blank">Записаться</a>
+                <a href="https://forms.amocrm.ru/rcxltdv" class="btn" target="_blank">Записаться</a>
             </div>
         </div>
     </section>
@@ -2363,7 +2604,7 @@
                     <div>1 раз в неделю, 90 минут</div>
 
                 </div>
-                <a href="https://forms.amocrm.ru/rczvvlc" class="btn" target="_blank">Записаться</a>
+                <a href="https://forms.amocrm.ru/rcxltdv" class="btn" target="_blank">Записаться</a>
             </div>
         </div>
     </section>
@@ -2381,7 +2622,7 @@
 
     <section class="projects-section reveal" id="projects">
         <div class="container">
-            <h2 class="projects-title">Проделки ребят</h2>
+            <h2 class="projects-title">Поделки ребят</h2>
             <div class="projects-gallery">
                 <div class="photo-card pc-1">
                     <div class="photo-inner"
@@ -2454,7 +2695,7 @@
                     <li>1 занятие в неделю (по 100 минут)</li>
                     <li>Все материалы и радиодетали включены</li>
                 </ul>
-                <a href="https://forms.amocrm.ru/rczvvlc" class="price-btn btn-price-basic" target="_blank">Купить
+                <a href="https://forms.amocrm.ru/rcxltdv" class="price-btn btn-price-basic" target="_blank">Купить
                     абонемент</a>
             </div>
 
@@ -2468,7 +2709,7 @@
                     <li>Занятия раз в неделю</li>
                     <li>Экономия 11% по сравнению с месячным абонементом</li>
                 </ul>
-                <a href="https://forms.amocrm.ru/rczvvlc" class="price-btn btn-price-popular" target="_blank">Купить
+                <a href="https://forms.amocrm.ru/rcxltdv" class="price-btn btn-price-popular" target="_blank">Купить
                     абонемент</a>
             </div>
 
@@ -2482,7 +2723,7 @@
                     <li>30 комплексных занятий на год вперед</li>
                     <li>Максимальная экономия 15%</li>
                 </ul>
-                <a href="https://forms.amocrm.ru/rczvvlc" class="price-btn btn-price-premium" target="_blank">Купить
+                <a href="https://forms.amocrm.ru/rcxltdv" class="price-btn btn-price-premium" target="_blank">Купить
                     абонемент</a>
             </div>
         </div>
@@ -2497,7 +2738,7 @@
                 <div class="huge-btn-container" style="gap: 40px; flex-wrap: wrap;">
                     <img src="Маскот Учи.ру.png" alt="Маскот Учи.ру" class="trial-mascot-img"
                         style="max-width: 350px; margin: 0;">
-                    <a href="https://forms.amocrm.ru/rczvvlc" class="huge-btn" target="_blank"
+                    <a href="https://forms.amocrm.ru/rcxltdv" class="huge-btn" target="_blank"
                         style="margin: 0;">ЗАПИСАТЬСЯ</a>
                 </div>
             </div>
